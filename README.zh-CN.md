@@ -1,3 +1,5 @@
+> **威联通原生 QPKG：** 无需 Docker 的 NAS 打包、配置与构建说明见 [qnap/README.zh-CN.md](qnap/README.zh-CN.md)。
+
 <div>
   <img src="./public/app-icon.png" alt="Motrix" width="256" />
   <h1>Motrix</h1>

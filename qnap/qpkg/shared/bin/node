@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+unset LD_LIBRARY_PATH LD_PRELOAD NODE_OPTIONS NODE_PATH
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+exec "$ROOT/runtime/bin/node" "$@"

@@ -1,3 +1,5 @@
+> **QNAP native QPKG:** See [qnap/README.md](qnap/README.md) for the Docker-free NAS packaging, configuration, and build instructions.
+
 <div>
   <img src="./public/app-icon.png" alt="Motrix" width="256" />
   <h1>Motrix</h1>

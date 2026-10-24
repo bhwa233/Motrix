@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0-beta.52",
+  "sourceRevision": "b7a77d2979618d22aa3d86da2622ace10baf4d4e",
+  "registry": "registry-1.docker.io",
+  "repository": "motrixapp/motrix-server",
+  "indexDigest": "sha256:bed10de5a9fea70f53e66a8421e636f75f6bff0a0186097e0e7bcc17c52525cf",
+  "manifestDigest": "sha256:63ba82cdf2f7653d7bcdcb78f0a7e7d6c6c15f78e72cbaf6149a27eb6bfe8e69",
+  "architecture": "amd64",
+  "qdkRevision": "b7b5f4c86ebe95b10a62d64725515e7cdcf4bb35"
+}

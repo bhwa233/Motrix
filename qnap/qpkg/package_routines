@@ -1,0 +1,21 @@
+pkg_check_requirement(){
+    [ "$(uname -m)" = x86_64 ] || err_log "Motrix Server requires an x86_64 NAS."
+    [ -x /bin/busybox ] || err_log "BusyBox is required."
+    [ -x /sbin/curl ] || command -v curl >/dev/null 2>&1 || err_log "curl is required."
+}
+
+pkg_post_install(){
+    chmod 0755 "$SYS_QPKG_DIR/MotrixServer.sh" "$SYS_QPKG_DIR/bin/"* "$SYS_QPKG_DIR/libexec/run-server.sh"
+    "$SYS_QPKG_DIR/MotrixServer.sh" prepare || err_log "Could not prepare the private Motrix runtime."
+}
+
+pkg_pre_install(){
+    # Preserve the upgrade transaction's data independently of package files.
+    if [ -x "$SYS_QPKG_DIR/MotrixServer.sh" ]; then
+        "$SYS_QPKG_DIR/MotrixServer.sh" stop || err_log "Stop Motrix before upgrading."
+    fi
+}
+
+PKG_POST_REMOVE="{
+    echo 'Motrix task data and downloaded files were retained. The service account is retained to preserve file ownership.'
+}"

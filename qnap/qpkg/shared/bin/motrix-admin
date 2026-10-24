@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+unset LD_LIBRARY_PATH LD_PRELOAD NODE_OPTIONS NODE_PATH
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+DATA_DIR=$(/sbin/getcfg MotrixServer Data_Dir -f /etc/config/qpkg.conf)
+MOTRIX_DATA_DIR=${DATA_DIR:-$(dirname "$(dirname "$ROOT")")/.motrix-server}
+export MOTRIX_DATA_DIR
+exec "$ROOT/runtime/bin/node" "$ROOT/server/dist/server/motrix-admin.mjs" "$@"
