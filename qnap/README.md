@@ -38,7 +38,7 @@ patchelf. No NAS development tools are needed.
 python3 scripts/fetch_upstream.py
 python3 scripts/stage_native.py
 python3 scripts/build_qpkg.py
-python3 scripts/verify_qpkg.py dist/MotrixServer_2.0.0.56_x86_64.qpkg
+python3 scripts/verify_qpkg.py dist/MotrixServer_2.0.0.58_x86_64.qpkg
 ```
 
 Set `PATCHELF` to an executable path when it is not on PATH. Build inputs are
@@ -137,7 +137,7 @@ QPKG 2.0.0.53 keeps upstream Motrix Server beta.52 and adds a native NAS share c
 
 At the NAS owner request, the default runtime account is now admin (UID 0), using its primary group. Existing share permissions are left unchanged; the server and child download processes inherit administrator filesystem access. Operator authentication remains required. Update RUN_USER in retained installation configuration when upgrading an older install.
 
-## Remember login (QPKG 2.0.0.56)
+## Remember login (QPKG 2.0.0.58)
 
 Operator browser sessions last one year and survive application restarts. The server stores only hashes of random session IDs and expiry timestamps in a private 0600 operator-sessions.json file. Logout revokes the session durably; token rotation invalidates old sessions. Cookie clearing, private browsing, a different hostname/IP or expiry still requires a new login. The operator token is never copied into localStorage.
 
@@ -160,3 +160,5 @@ login. Session state stores hashes rather than raw cookies.
 
 DHT bootstrap address overrides are optional NAS configuration. No router or
 proxy changes are included, and no speed improvement is guaranteed.
+
+HTTP NAS pages include a clipboard write fallback for browsers that omit the secure-context Clipboard API. Copy remains a user-triggered action; browser refusal is reported as a failure. Upgrades restore customized administrative configuration when QDK moves it aside because packaged defaults changed.

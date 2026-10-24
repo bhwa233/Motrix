@@ -5,11 +5,21 @@ pkg_check_requirement(){
 }
 
 pkg_post_install(){
+    if [ "${MOTRIX_RESTORE_CONFIG:-}" = 1 ]; then
+        mv -f "$SYS_QPKG_DIR/etc/motrix.conf.qdksave" "$SYS_QPKG_DIR/etc/motrix.conf" || err_log "Could not restore administrative configuration."
+        chmod 0600 "$SYS_QPKG_DIR/etc/motrix.conf"
+    fi
     chmod 0755 "$SYS_QPKG_DIR/MotrixServer.sh" "$SYS_QPKG_DIR/bin/"* "$SYS_QPKG_DIR/libexec/run-server.sh"
     "$SYS_QPKG_DIR/MotrixServer.sh" prepare || err_log "Could not prepare the private Motrix runtime."
 }
 
 pkg_pre_install(){
+    # QDK moves modified configuration aside when packaged defaults change.
+    # Only restore a save made by this transaction, not an old leftover backup.
+    MOTRIX_RESTORE_CONFIG=
+    if [ ! -f "$SYS_QPKG_DIR/etc/motrix.conf" ] && [ -f "$SYS_QPKG_DIR/etc/motrix.conf.qdksave" ]; then
+        MOTRIX_RESTORE_CONFIG=1
+    fi
     # Preserve the upgrade transaction's data independently of package files.
     if [ -x "$SYS_QPKG_DIR/MotrixServer.sh" ]; then
         "$SYS_QPKG_DIR/MotrixServer.sh" stop || err_log "Stop Motrix before upgrading."

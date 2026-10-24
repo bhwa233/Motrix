@@ -32,7 +32,7 @@ NAS 无需开发工具。
 python3 scripts/fetch_upstream.py
 python3 scripts/stage_native.py
 python3 scripts/build_qpkg.py
-python3 scripts/verify_qpkg.py dist/MotrixServer_2.0.0.56_x86_64.qpkg
+python3 scripts/verify_qpkg.py dist/MotrixServer_2.0.0.58_x86_64.qpkg
 ```
 
 patchelf 不在 PATH 时，可以通过 `PATCHELF` 指定路径。下载缓存位于 `cache/`，
@@ -127,7 +127,7 @@ musl 版权声明，以及 GCC 许可证和运行库例外。QDK 安装脚本遵
 
 管理员模式意味着下载服务及其插件拥有 NAS 管理员文件访问权限。Web 端仍要求 operator token。目录选择器继续只展示注册共享，且保留真实写入校验。只读目录提示会依据当前管理员账户权限更新。旧 motrixsvc 账户和历史文件归属保留，不清理用户文件。
 
-## 记住登录（QPKG 2.0.0.56）
+## 记住登录（QPKG 2.0.0.58）
 
 首次输入 operator token 后，当前浏览器通过 HttpOnly、SameSite=Strict Cookie 保持登录一年。会话的随机标识只在浏览器 Cookie 中，服务器在状态目录 operator-sessions.json 中持久化其 SHA-256 摘要和过期时间，文件权限 0600；应用重启不再丢失会话。不会把管理员令牌放入 localStorage，也不会取消认证。
 
@@ -151,3 +151,5 @@ musl 版权声明，以及 GCC 许可证和运行库例外。QDK 安装脚本遵
 
 DHT 引导地址覆盖属于可选 NAS 配置。本适配不修改路由器或代理配置，
 也不保证下载速度提升。
+
+HTTP 的 NAS 页面包含复制兼容处理，支持浏览器未提供安全上下文剪贴板接口的情况。复制仍由用户点击触发；浏览器拒绝时会显示失败。升级时，如果 QDK 因默认配置变化而将用户配置移到备份文件，安装钩子会恢复本次升级保存的配置。

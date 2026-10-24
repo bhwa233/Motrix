@@ -70,7 +70,7 @@ def apply(app):
     # Rename the entire JS module graph, not only its entry point. Cached lazy
     # chunks must not import a second, stale copy of the old application root.
     scripts = list(web.rglob('*.js'))
-    mapping = {item.name: item.stem + '-qnap-nas4.js' for item in scripts}
+    mapping = {item.name: item.stem + '-qnap-nas5.js' for item in scripts}
     for item in scripts + list(web.rglob('*.html')):
         text = item.read_text()
         for old, new in mapping.items():
@@ -78,7 +78,13 @@ def apply(app):
         item.write_text(text)
     for item in scripts:
         item.rename(item.with_name(mapping[item.name]))
-    return {'serverInputSha256': hashlib.sha256(original.encode()).hexdigest(), 'rendererRevision': 'qnap-nas4'}
+    # A synchronous script installs HTTP clipboard support before deferred modules run.
+    clipboard_name = 'qnap-clipboard-v1.js'
+    shutil.copy2(ROOT / 'patches/clipboard-fallback.js', web / 'assets' / clipboard_name)
+    index = web / 'index.html'
+    index.write_text(replace_once(index.read_text(), '</head>',
+        f'<script src="./assets/{clipboard_name}"></script>\n  </head>'))
+    return {'serverInputSha256': hashlib.sha256(original.encode()).hexdigest(), 'rendererRevision': 'qnap-nas5'}
 
 if __name__ == '__main__':
     import json
